@@ -1,0 +1,22 @@
+﻿@using Spootify.Models
+@model List<Song>
+@{
+    ViewBag.Title = "Songs";
+}
+
+<div class="jumbotron">
+    <h1>Genre</h1>
+    <p class="lead"> Alle liedjes met jou geselecteerde genre!</p>
+</div>
+
+@foreach (Song song in Model)
+{
+    <div class="col-xs-6 col-md-3">
+        <a href="@Url.Action("Index", "Song", new { song.SongID})" class="thumbnail">
+            <img src="@song.PictureURL" alt="http://www.worsleymemorials.co.uk/wp-content/uploads/2015/11/image-placeholder.png">
+            <div class="caption">
+                <h3>@song.Name</h3>
+            </div>
+        </a>
+    </div>
+}

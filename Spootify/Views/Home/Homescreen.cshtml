@@ -1,0 +1,30 @@
+﻿@using Spootify.Models
+@model List<Genre>
+
+@{
+    ViewBag.Title = "Homescreen";
+}
+
+<h2>Homescreen</h2>
+
+<div class="row">
+    <div class="col-xs-6 col-md-3">
+        <a href="@Url.Action("Songs", "Genre")" class="thumbnail">
+            <img src="http://i.imgur.com/cGOTLnw.png" alt="http://www.worsleymemorials.co.uk/wp-content/uploads/2015/11/image-placeholder.png">
+            <div class="caption">
+                <h3>Aanbevolen</h3>
+            </div>
+        </a>
+    </div>
+    @foreach (Genre genre in Model)
+    {
+        <div class="col-xs-6 col-md-3">
+            <a href="@Url.Action("Songs", "Genre", new {GenreID = genre.GenreID, genre})" class="thumbnail">
+                <img src="http://i.imgur.com/aUvvxL3.png" alt="http://www.worsleymemorials.co.uk/wp-content/uploads/2015/11/image-placeholder.png">
+                <div class="caption">
+                    <h3>@genre.Name</h3>
+                </div>
+            </a>
+        </div>
+    }
+</div>
