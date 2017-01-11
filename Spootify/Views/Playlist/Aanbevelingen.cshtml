@@ -1,0 +1,25 @@
+﻿@using Spootify.Models
+@model List<Song>
+@{
+    ViewBag.Title = "Aanbevelingen";
+}
+
+<h2>Aanbevelingen</h2>
+@if (Model.Count != 0)
+{
+    foreach (Song song in Model)
+     {
+         <dl>
+             <dt>@song.Name</dt>
+             <dd>@song.Duration + @song.Date</dd>
+         </dl>
+     }
+}
+else
+{
+    <h2>U heeft geen favoriete genres ingesteld of er zijn geen liedjes met uw favoriete genres in de database.</h2>
+}
+
+
+
+

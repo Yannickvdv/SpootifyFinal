@@ -176,7 +176,7 @@ namespace Spootify.Context
 
         }
 
-        public List<Song> GetSongsGenre(string GenreID)
+        public List<Song> GetSongsGenre(int GenreID)
         {
       
                 string query =
@@ -197,6 +197,36 @@ namespace Spootify.Context
                     return songs;
                 }
  
+        }
+        public List<Song> GetSongsRecommended(Account account)
+        {
+            try
+            {
+                string query =
+                    "select top 10 s.* from Account a, Song s, Genre g, Song_Genre sg WHERE s.SongID = sg.SongID AND sg.GenreID = g.GenreID AND a.AccountID = @AccountID AND (a.FavGenre1 = g.GenreID OR a.FavGenre2 = g.GenreID OR a.FavGenre3 = g.GenreID) order by newid()";
+                using (SqlConnection connection = Database.Connection)
+                {
+                    List<Song> songs = new List<Song>();
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.Add(new SqlParameter("@AccountID", account.AccountID));
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Song song = new Song(Convert.ToInt32(reader["SongID"]), Convert.ToString(reader["Song"]),
+                            Convert.ToString(reader["Name"]), Convert.ToInt32(reader["Duration"]),
+                            Convert.ToString(reader["Picture"]), Convert.ToDateTime(reader["Date"]));
+                        songs.Add(song);
+                    }
+                    return songs;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
+
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿@using Spootify.Models
+@model List<Playlist>
+@{
+    ViewBag.Title = "Playlists";
+}
+
+<h2>Playlists</h2>
+
+@foreach (Playlist playlist in Model)
+{
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active"><a href="@Url.Action("Playlist", new { playlist.PlaylistID})">@playlist.Name</a></li>
+    </ul>
+}
+
+<button type="button" value="NewPlaylist" onclick="@Url.Action("New", "Playlist")" class="btn btn-danger">Nieuwe playlist aanmaken.</button>

@@ -21,8 +21,16 @@
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Index", "Home")">Index</a></li>
                     <li><a href="@Url.Action("Homescreen", "Home")">Homescreen</a></li>
+                    @if (Session["User"] != null)
+                    {
+                        <li><a href="@Url.Action("Index", "Genre")">Genres</a></li>
+                        <li><a href="@Url.Action("Index", "Playlist")">Afspeellijsten</a></li>
+                    }
                 </ul>
-
+                @if (Session["User"] != null)
+                {
+                    <button type="button" value="Uitloggen" onclick="@Url.Action("Logout", "Home")" class="btn btn-danger col-sm-1">Uitloggen</button>
+                }
             </div>
         </div>
     </div>

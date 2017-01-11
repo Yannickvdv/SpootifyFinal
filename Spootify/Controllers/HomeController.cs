@@ -23,9 +23,14 @@ namespace Spootify.Controllers
         [Route("Homescreen")]
         public ActionResult Homescreen()
         {
-            GenreRepo repo = new GenreRepo(new GenreSQLContext());
-            List<Genre> genre = repo.GetGenres();
-            return View(genre);
+            return View();
+        }
+
+        [Route("Logout")]
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return View("Index");
         }
 
         [HttpPost]
@@ -36,7 +41,7 @@ namespace Spootify.Controllers
             repo.NewAccount(account);
 
             this.Session["User"] = account;
-            return View("Homescreen");
+            return RedirectToAction("Index", "Genre");
         }
 
         [HttpPost]
@@ -53,7 +58,7 @@ namespace Spootify.Controllers
             else
             {
                 this.Session["User"] = account;
-                return View("Homescreen");
+                return RedirectToAction("Index", "Genre");
             }
             
         }

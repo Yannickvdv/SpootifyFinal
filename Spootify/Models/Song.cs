@@ -34,5 +34,13 @@ namespace Spootify.Models
             this.PictureURL = PictureURL;
             this.Date = Date;
         }
+        public Song(string SongURL, string Name, int Duration, string PictureURL, DateTime Date)
+        {
+            this.SongURL = SongURL;
+            this.Name = Name;
+            this.Duration = Duration;
+            this.PictureURL = PictureURL;
+            this.Date = Date;
+        }
     }
 }

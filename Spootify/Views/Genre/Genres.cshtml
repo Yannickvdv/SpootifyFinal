@@ -2,14 +2,14 @@
 @model List<Genre>
 
 @{
-    ViewBag.Title = "Homescreen";
+    ViewBag.Title = "Genres";
 }
 
-<h2>Homescreen</h2>
+<h2>Genres</h2>
 
 <div class="row">
     <div class="col-xs-6 col-md-3">
-        <a href="@Url.Action("Songs", "Genre")" class="thumbnail">
+        <a href="@Url.Action("Aanbevelingen", "Playlist")" class="thumbnail">
             <img src="http://i.imgur.com/cGOTLnw.png" alt="http://www.worsleymemorials.co.uk/wp-content/uploads/2015/11/image-placeholder.png">
             <div class="caption">
                 <h3>Aanbevolen</h3>

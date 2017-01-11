@@ -48,9 +48,14 @@ namespace Spootify.Repos
             return context.GetSongsPlaylist(playlist);
         }
 
-        public List<Song> GetSongsGenre(string genreID)
+        public List<Song> GetSongsGenre(int genreID)
         {
             return context.GetSongsGenre(genreID);
+        }
+
+        public List<Song> GetSongsRecommended(Account account)
+        {
+            return context.GetSongsRecommended(account);
         }
     }
 }

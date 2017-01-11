@@ -148,6 +148,7 @@
     <Compile Include="Context\SongSQLContext.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlaylistController.cs" />
     <Compile Include="Controllers\SongController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -177,9 +178,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Home\Homescreen.cshtml" />
+    <Content Include="Views\Genre\Genres.cshtml" />
     <Content Include="Views\Genre\Songs.cshtml" />
     <Content Include="Views\Song\Index.cshtml" />
+    <Content Include="Views\Song\New.cshtml" />
+    <Content Include="Views\Playlist\Playlist.cshtml" />
+    <Content Include="Views\Playlist\Index.cshtml" />
+    <Content Include="Views\Playlist\Aanbevelingen.cshtml" />
+    <Content Include="Views\Playlist\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

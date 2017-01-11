@@ -15,7 +15,8 @@ namespace Spootify.Context.Interfaces
         List<Song> GetAll();
         List<Song> GetSongsAccount(Account playlist);
         List<Song> GetSongsPlaylist(Playlist playlist);
-        List<Song> GetSongsGenre(string genreID);
+        List<Song> GetSongsGenre(int genreID);
+        List<Song> GetSongsRecommended(Account account);
 
     }
 }

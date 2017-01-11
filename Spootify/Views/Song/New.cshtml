@@ -1,0 +1,43 @@
+﻿@using Spootify.Models
+@model List<Genre>
+@{
+    ViewBag.Title = "Nieuw lied";
+}
+
+<h2>Nieuw Lied</h2>
+
+<div class="col-md-6">
+    <h2>Nieuw lied toevoegen!</h2>
+    <form onsubmit="return checkPassword(this)" method="post" action="@Url.Action("NewSong", "Song")">
+        <div class="form-group">
+            <label for="InputName">Naam</label>
+            <input type="text" class="form-control" id="InputName" placeholder="Naam" name="InputName" />
+        </div>
+        <div class="form-group">
+            <label for="InputDuration">Duur</label>
+            <input type="text" class="form-control" id="InputDuration" placeholder="Duur" name="InputDuration" />
+        </div>
+        <div class="form-group">
+            <label for="InputFoto">Foto</label>
+            <input type="file" id="InputFoto" name="InputFoto">
+        </div>
+        <div class="form-group">
+            <label for="InputSong">Liedje</label>
+            <input type="file" id="InputSong" name="InputSong">
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="InputGenre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" name="InputGenre">
+                Dropdown
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                @foreach (Genre genre in Model)
+                {
+                    <li><a href="#">@genre.Name</a></li>
+                }
+                
+            </ul>
+        </div>
+        <button type="submit" class="btn btn-success">Lied invoeren!</button>
+    </form>
+</div>

@@ -12,19 +12,26 @@ namespace Spootify.Controllers
     [RoutePrefix("Genre")]
     public class GenreController : Controller
     {
-        [Route("")]
-        // GET: Genre
+
+        [Route("Index")]
         public ActionResult Index()
         {
-            return View();
+            GenreRepo repo = new GenreRepo(new GenreSQLContext());
+            List<Genre> genre = repo.GetGenres();
+            return View("Genres", genre);
         }
+        
 
-        [Route("{genreID:int}")]
-        public ActionResult Songs(string genreID)
+        [Route("{genreID?}")]
+        public ActionResult Songs(int genreID)
         {
             SongRepo SongRepo = new SongRepo(new SongSQLContext());
-            List<Song> songs = SongRepo.GetSongsGenre(genreID);
-            return View(songs);
+            List<Song> songs = new List<Song>();
+            if (genreID != 0)
+            {
+                songs = SongRepo.GetSongsGenre(genreID);
+            }
+            return View("Songs", songs);
         }
     }
 }

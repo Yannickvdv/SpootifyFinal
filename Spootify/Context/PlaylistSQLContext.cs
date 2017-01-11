@@ -29,8 +29,9 @@ namespace Spootify.Context
                     return playlists;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
