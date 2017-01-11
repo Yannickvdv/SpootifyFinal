@@ -11,33 +11,33 @@
     <form onsubmit="return checkPassword(this)" method="post" action="@Url.Action("NewSong", "Song")">
         <div class="form-group">
             <label for="InputName">Naam</label>
-            <input type="text" class="form-control" id="InputName" placeholder="Naam" name="InputName" />
+            <input type="text" required="required" class="form-control" id="InputName" placeholder="Naam" name="InputName" />
         </div>
         <div class="form-group">
             <label for="InputDuration">Duur</label>
-            <input type="text" class="form-control" id="InputDuration" placeholder="Duur" name="InputDuration" />
+            <input type="text" required="required" class="form-control" id="InputDuration" placeholder="Duur" name="InputDuration" />
         </div>
         <div class="form-group">
-            <label for="InputFoto">Foto</label>
-            <input type="file" id="InputFoto" name="InputFoto">
+            <label for="InputFoto">FotoUrl</label>
+            <input type="text" required="required" class="form-control" id="InputFoto" name="InputFoto" placeholder="Foto">
+        </div>
+        <div class="dropdown">
+            <label>Genre</label>
+            <select class="form-control" id="InputGenre">
+
+                @foreach (Genre genre in Model)
+                {
+                    <option>@genre.Name</option>
+                }
+
+            </select>
         </div>
         <div class="form-group">
             <label for="InputSong">Liedje</label>
-            <input type="file" id="InputSong" name="InputSong">
+            <input type="file" required="required" id="InputSong" name="InputSong">
         </div>
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" id="InputGenre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" name="InputGenre">
-                Dropdown
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                @foreach (Genre genre in Model)
-                {
-                    <li><a href="#">@genre.Name</a></li>
-                }
-                
-            </ul>
-        </div>
+
+
         <button type="submit" class="btn btn-success">Lied invoeren!</button>
     </form>
 </div>

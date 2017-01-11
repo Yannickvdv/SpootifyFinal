@@ -5,6 +5,7 @@
 }
 
 <h2>Playlists</h2>
+<li role="presentation" class="list-group-item"><a href="@Url.Action("New", "Playlist")">Nieuwe playlist aanmaken.</a></li>
 
 @foreach (Playlist playlist in Model)
 {
@@ -13,4 +14,3 @@
     </ul>
 }
 
-<button type="button" value="NewPlaylist" onclick="@Url.Action("New", "Playlist")" class="btn btn-danger">Nieuwe playlist aanmaken.</button>

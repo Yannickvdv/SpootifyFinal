@@ -1,0 +1,14 @@
+﻿@using Spootify.Models
+@model Account
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="jumbotron">
+    <img src="@Model.ProfilePictureURL" alt="Oepsiedaisie" class="img-rounded" height="500" width="600" />
+    <h1>@Model.Name</h1>
+    <p class="lead">Email: @Model.Email</p>
+    <p class="lead">Datum aangemaakt: @Model.date</p>
+
+    <a href="@Url.Action("FavorieteGenres", "Account")"> <button type="button" value="FavorieteGenres" class="btn btn-info btn-group-lg">Favoriete genres instellen.</button> </a>
+</div>

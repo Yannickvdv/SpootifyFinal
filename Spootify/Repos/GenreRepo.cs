@@ -30,5 +30,10 @@ namespace Spootify.Repos
         {
             return context.GetGenre(GenreID);
         }
+
+        public bool AddLiedGenre(string SongID, List<Genre> genres)
+        {
+            return context.AddLiedGenre(SongID, genres);
+        }
     }
 }

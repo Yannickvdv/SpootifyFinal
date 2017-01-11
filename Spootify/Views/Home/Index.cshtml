@@ -12,11 +12,11 @@
         <form method="post" action="@Url.Action("LoginAccount", "Home")">
             <div class="form-group">
                 <label for="loginInputMail">Email adress</label>
-                <input type="email" class="form-control" id="loginInputMail" placeholder ="Email" name="loginInputMail"/>
+                <input type="email" required="required" class="form-control" id="loginInputMail" placeholder ="Email" name="loginInputMail"/>
             </div>
             <div class="form-group">
                 <label for="loginInputPassword">Wachtwoord</label>
-                <input type="password" class="form-control" id="loginInputPassword" name="loginInputPassword"/>
+                <input type="password" required="required" class="form-control" id="loginInputPassword" name="loginInputPassword"/>
             </div>
             <button type="submit" class="btn btn-success">Inloggen</button>
         </form>
@@ -26,23 +26,23 @@
         <form onsubmit="return checkPassword(this)" method="post" action="@Url.Action("NewAccount", "Home")">
             <div class="form-group">
                 <label for="newInputName">Naam</label>
-                <input type="text" class="form-control" id="newInputName" placeholder="Name" name="newInputName"/>
+                <input type="text" required="required" class="form-control" id="newInputName" placeholder="Name" name="newInputName"/>
             </div>
             <div class="form-group">
                 <label for="newInputEmail">Email adress</label>
-                <input type="email" class="form-control" id="newInputEmail" placeholder="Email" name="newInputEmail"/>
+                <input type="email" required="required" class="form-control" id="newInputEmail" placeholder="Email" name="newInputEmail"/>
             </div>
             <div class="form-group">
                 <label for="newInputPassword">Wachtwoord</label>
-                <input type="password" class="form-control" id="newInputPassword" name="newInputPassword"/>
+                <input type="password" required="required" class="form-control" id="newInputPassword" name="newInputPassword"/>
             </div>
             <div class="form-group">
                 <label for="newInputPasswordCheck">Wachtwoord opnieuw invoeren</label>
-                <input type="password" class="form-control" id="newInputPasswordCheck" name="newInputPasswordCheck"/>
+                <input type="password" required="required" class="form-control" id="newInputPasswordCheck" name="newInputPasswordCheck"/>
             </div>
             <div class="form-group">
                 <label for="newInputFoto">Profielfoto</label>
-                <input type="file" id="newInputFoto" name="newInputFoto">
+                <input type="file" required="required" id="newInputFoto" name="newInputFoto">
                 <p class="help-block">Voeg hier uw profielfoto toe.</p>
             </div>
             <button type="submit" class="btn btn-success">Account aanmaken</button>

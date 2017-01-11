@@ -33,9 +33,11 @@ namespace Spootify.Controllers
         public ActionResult NewSong()
         {
             SongRepo repo = new SongRepo(new SongSQLContext());
-            repo.NewSong(new Song(Convert.ToString(Request.Form["InputSong"]), Request.Form["InputName"],
-                Convert.ToInt32(Request.Form["InputDuration"]), Request.Form["InputSong"], DateTime.Now));
-            return RedirectToAction("Homescreen", "Home");
+            Song song = new Song(Request.Form["InputSong"], Request.Form["InputName"],
+                Convert.ToInt32(Request.Form["InputDuration"]), Request.Form["InputFoto"], DateTime.Now);
+            repo.NewSong(song);
+            //GenreRepo genreRepo = new GenreRepo(new GenreSQLContext());
+            return RedirectToAction("Index", "Genre");
 
         }
     }

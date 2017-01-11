@@ -11,5 +11,6 @@ namespace Spootify.Context.Interfaces
         Genre GetGenre(string GenreID);
         List<Genre> GetGenres();
         List<Genre> GetGenresLied(Song song);
+        bool AddLiedGenre(string SongID, List<Genre> genres);
     }
 }

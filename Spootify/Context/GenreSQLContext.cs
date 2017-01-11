@@ -90,5 +90,29 @@ namespace Spootify.Context
                 return null;
             }
         }
+
+        public bool AddLiedGenre(string SongID, List<Genre> genres)
+        {
+            try
+            {
+                string query =
+                 "INSERT INTO Song_Genre (SongID, GenreID) VALUES (@SongID, @GenreID);";
+                using (SqlConnection Connection = Database.Connection)
+                {
+                    SqlCommand cmd = new SqlCommand(query, Connection);
+                    foreach (Genre genre in genres)
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@Name", SongID));
+                        cmd.Parameters.Add(new SqlParameter("@Password", genre.GenreID));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
