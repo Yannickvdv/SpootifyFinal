@@ -16,22 +16,48 @@ namespace Spootify.Controllers
         [Route("Index")]
         public ActionResult Index()
         {
-            GenreRepo repo = new GenreRepo(new GenreSQLContext());
-            List<Genre> genre = repo.GetGenres();
-            return View("Genres", genre);
+            try
+            {
+                Genre genre = new Genre();
+                GenreRepo repo = new GenreRepo(new GenreSQLContext());
+                List<Genre>genres = repo.GetGenres();
+                return View("Genres", genres);
+            }
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
-        
+
 
         [Route("{genreID?}")]
         public ActionResult Songs(int genreID)
         {
-            SongRepo SongRepo = new SongRepo(new SongSQLContext());
-            List<Song> songs = new List<Song>();
-            if (genreID != 0)
+            try
             {
-                songs = SongRepo.GetSongsGenre(genreID);
+                List<Song> songs = new List<Song>();
+                Genre genre = new Genre();
+                if (genreID != 0)
+                {
+                    songs = genre.GetSongsGenre(genreID);
+                }
+                return View("Songs", songs);
             }
-            return View("Songs", songs);
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
     }
 }

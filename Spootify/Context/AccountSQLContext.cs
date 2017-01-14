@@ -13,12 +13,10 @@ using Spootify.Models;
 
 namespace Spootify.Context
 {
-    class AccountSQLContext : IAccountContext
+    public class AccountSQLContext : IAccountContext
     {
         public bool NewAccount(Account Account)
         {
-            try
-            {
             string query =
                 "INSERT INTO Account ( Name, Password, Email, Date, ProfilePicture, FavGenre1, FavGenre2, FavGenre3) VALUES (@Name, @Password, @Email, @Date, @ProfilePicture, @FavGenre1, @FavGenre2, @FavGenre3);";
             using (SqlConnection Connection = Database.Connection)
@@ -35,79 +33,57 @@ namespace Spootify.Context
                 cmd.ExecuteNonQuery();
             }
             return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
         }
 
         public List<Account> GetAccounts()
         {
-            try
+            string query = "SELECT * FROM Account;";
+            using (SqlConnection connection = Database.Connection)
             {
-                string query = "SELECT * FROM Account;";
-                using (SqlConnection connection = Database.Connection)
+                List<Account> Accounts = new List<Account>();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<Account> Accounts = new List<Account>();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Account Account = new Account(Convert.ToInt32(reader["AccountID"]),
-                            Convert.ToString(reader["Name"]), Convert.ToString(reader["Password"]),
-                            Convert.ToString(reader["Email"]), Convert.ToDateTime(reader["Date"]),
-                            Convert.ToString(reader["ProfilePicture"]), Convert.ToString(reader["FavGenre1"]),
-                            Convert.ToString(reader["FavGenre2"]), Convert.ToString(reader["FavGenre3"]));
-                        Accounts.Add(Account);
-                    }
-                    return Accounts;
+                    Account Account = new Account(Convert.ToInt32(reader["AccountID"]),
+                        Convert.ToString(reader["Name"]), Convert.ToString(reader["Password"]),
+                        Convert.ToString(reader["Email"]), Convert.ToDateTime(reader["Date"]),
+                        Convert.ToString(reader["ProfilePicture"]), Convert.ToString(reader["FavGenre1"]),
+                        Convert.ToString(reader["FavGenre2"]), Convert.ToString(reader["FavGenre3"]));
+                    Accounts.Add(Account);
                 }
-            }
-            catch (Exception)
-            {
-
-                return null;
+                return Accounts;
             }
         }
 
 
         public Account LoginAccount(string Email, string Password)
         {
-            try
+            using (Database.Connection)
             {
-                using (Database.Connection)
+                SqlCommand cmd = new SqlCommand("AccountLogin", Database.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@Email", Email));
+                cmd.Parameters.Add(new SqlParameter("@Password", Password));
+                Account account = new Account();
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    SqlCommand cmd = new SqlCommand("AccountLogin", Database.Connection);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Email", Email));
-                    cmd.Parameters.Add(new SqlParameter("@Password", Password));
-                    Account account = new Account();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            account.AccountID = Convert.ToInt32(reader["AccountID"]);
-                            account.Name = Convert.ToString(reader["Name"]);
-                            account.Password = Convert.ToString(reader["Password"]);
-                            account.Email = Convert.ToString(reader["Email"]);
-                            account.date = Convert.ToDateTime(reader["Date"]);
-                            account.ProfilePictureURL = Convert.ToString(reader["ProfilePicture"]);
-                            account.FavGenre1 = Convert.ToString(reader["FavGenre1"]);
-                            account.FavGenre2 = Convert.ToString(reader["FavGenre2"]);
-                            account.FavGenre3 = Convert.ToString(reader["FavGenre3"]);
-                        }
+                        account.AccountID = Convert.ToInt32(reader["AccountID"]);
+                        account.Name = Convert.ToString(reader["Name"]);
+                        account.Password = Convert.ToString(reader["Password"]);
+                        account.Email = Convert.ToString(reader["Email"]);
+                        account.date = Convert.ToDateTime(reader["Date"]);
+                        account.ProfilePictureURL = Convert.ToString(reader["ProfilePicture"]);
+                        account.FavGenre1 = Convert.ToString(reader["FavGenre1"]);
+                        account.FavGenre2 = Convert.ToString(reader["FavGenre2"]);
+                        account.FavGenre3 = Convert.ToString(reader["FavGenre3"]);
                     }
-                    return account;
                 }
-
+                return account;
             }
-            catch (Exception)
-            {
-                return null;
-            } 
-
         }
     }
 }
+

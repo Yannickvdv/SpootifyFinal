@@ -12,107 +12,84 @@ namespace Spootify.Context
     {
         public List<Genre> GetGenres()
         {
-   
-                string query = "SELECT * FROM Genre;";
-                using (SqlConnection connection = Database.Connection)
+            string query = "SELECT * FROM Genre;";
+            using (SqlConnection connection = Database.Connection)
+            {
+                List<Genre> Genres = new List<Genre>();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<Genre> Genres = new List<Genre>();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
+                    int ParentGenreID;
+                    if (!Convert.IsDBNull(reader["ParentGenreID"]))
                     {
-                        int ParentGenreID;
-                        if (!Convert.IsDBNull(reader["ParentGenreID"]))
-                        {
-                            ParentGenreID = Convert.ToInt32(reader["ParentGenreID"]);
-                        }
-                        else
-                        {
-                            ParentGenreID = 0;
-                        }
-
-                        Genre Genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]), ParentGenreID);
-                        Genres.Add(Genre);
+                        ParentGenreID = Convert.ToInt32(reader["ParentGenreID"]);
                     }
-                    return Genres;
-                
-            }
+                    else
+                    {
+                        ParentGenreID = 0;
+                    }
 
+                    Genre Genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]),
+                        ParentGenreID);
+                    Genres.Add(Genre);
+                }
+                return Genres;
+            }
         }
 
         public List<Genre> GetGenresLied(Song song)
         {
-            try
+            string query =
+                "SELECT * FROM Genre g, Song_Genre sg, Song s WHERE g.GenreID = sg.GenreID AND sg.SongID = s.SongID AND s.SongID = " +
+                song.SongID;
+            using (SqlConnection connection = Database.Connection)
             {
-                string query = "SELECT * FROM Genre g, Song_Genre sg, Song s WHERE g.GenreID = sg.GenreID AND sg.SongID = s.SongID AND s.SongID = " + song.SongID;
-                using (SqlConnection connection = Database.Connection)
+                List<Genre> Genres = new List<Genre>();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<Genre> Genres = new List<Genre>();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Genre Genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]),
-                            Convert.ToInt32(reader["ParentGenreID"]));
-                        Genres.Add(Genre);
-                    }
-                    return Genres;
+                    Genre Genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]),
+                        Convert.ToInt32(reader["ParentGenreID"]));
+                    Genres.Add(Genre);
                 }
-            }
-            catch (Exception)
-            {
-
-                return null;
+                return Genres;
             }
         }
 
         public Genre GetGenre(string GenreID)
         {
-            try
+            string query = "SELECT * FROM Genre WHERE GenreID = " + GenreID;
+            using (SqlConnection connection = Database.Connection)
             {
-                string query = "SELECT * FROM Genre WHERE GenreID = " + GenreID;
-                using (SqlConnection connection = Database.Connection)
+                Genre genre = new Genre();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    Genre genre = new Genre();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]),
-                            Convert.ToInt32(reader["ParentGenreID"]));
-                    }
-                    return genre;
+                    genre = new Genre(Convert.ToInt32(reader["GenreID"]), Convert.ToString(reader["Name"]),
+                        Convert.ToInt32(reader["ParentGenreID"]));
                 }
-            }
-            catch (Exception)
-            {
-
-                return null;
+                return genre;
             }
         }
 
         public bool AddLiedGenre(string SongID, List<Genre> genres)
         {
-            try
+            string query =
+                "INSERT INTO Song_Genre (SongID, GenreID) VALUES (@SongID, @GenreID);";
+            using (SqlConnection Connection = Database.Connection)
             {
-                string query =
-                 "INSERT INTO Song_Genre (SongID, GenreID) VALUES (@SongID, @GenreID);";
-                using (SqlConnection Connection = Database.Connection)
+                SqlCommand cmd = new SqlCommand(query, Connection);
+                foreach (Genre genre in genres)
                 {
-                    SqlCommand cmd = new SqlCommand(query, Connection);
-                    foreach (Genre genre in genres)
-                    {
-                        cmd.Parameters.Add(new SqlParameter("@Name", SongID));
-                        cmd.Parameters.Add(new SqlParameter("@Password", genre.GenreID));
-                        cmd.ExecuteNonQuery();
-                    }
+                    cmd.Parameters.Add(new SqlParameter("@Name", SongID));
+                    cmd.Parameters.Add(new SqlParameter("@Password", genre.GenreID));
+                    cmd.ExecuteNonQuery();
                 }
-                return true;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            return true;
         }
     }
 }

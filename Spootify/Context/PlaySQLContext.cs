@@ -12,49 +12,35 @@ namespace Spootify.Context
     {
         public List<Play> GetPlays(Account account)
         {
-            try
+            string query = "SELECT * FROM Play WHERE AccountID = ;" + account.AccountID;
+            using (SqlConnection connection = Database.Connection)
             {
-                string query = "SELECT * FROM Play WHERE AccountID = ;" + account.AccountID;
-                using (SqlConnection connection = Database.Connection)
+                List<Play> Plays = new List<Play>();
+                SqlCommand cmd = new SqlCommand(query, connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    List<Play> Plays = new List<Play>();
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Play play = new Play(Convert.ToInt32(reader["PlayID"]), Convert.ToInt32(reader["SongID"]), Convert.ToInt32(reader["AccountID"]),
-                            Convert.ToDateTime(reader["DateTime"]));
-                        Plays.Add(play);
-                    }
-                    return Plays;
+                    Play play = new Play(Convert.ToInt32(reader["PlayID"]), Convert.ToInt32(reader["SongID"]),
+                        Convert.ToInt32(reader["AccountID"]),
+                        Convert.ToDateTime(reader["DateTime"]));
+                    Plays.Add(play);
                 }
-            }
-            catch (Exception)
-            {
-
-                return null;
+                return Plays;
             }
         }
 
         public bool NewPlay(Song song, Account account, DateTime dateTime)
         {
-            try
+            string query =
+                "INSERT INTO Play (SongID, AccountID, DateTime) values (@SongID, @AccountID, @DateTime);";
+            using (SqlConnection Connection = Database.Connection)
             {
-                string query =
-                    "INSERT INTO Play (SongID, AccountID, DateTime) values (@SongID, @AccountID, @DateTime);";
-                using (SqlConnection Connection = Database.Connection)
-                {
-                    SqlCommand cmd = new SqlCommand(query, Connection);
-                    cmd.Parameters.Add(new SqlParameter("@SongID", song.SongID));
-                    cmd.Parameters.Add(new SqlParameter("@AccountID", account.AccountID));
-                    cmd.Parameters.Add(new SqlParameter("@DateTime", dateTime));
-                }
-                return true;
+                SqlCommand cmd = new SqlCommand(query, Connection);
+                cmd.Parameters.Add(new SqlParameter("@SongID", song.SongID));
+                cmd.Parameters.Add(new SqlParameter("@AccountID", account.AccountID));
+                cmd.Parameters.Add(new SqlParameter("@DateTime", dateTime));
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            return true;
         }
     }
 }

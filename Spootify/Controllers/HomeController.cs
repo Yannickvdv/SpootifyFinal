@@ -36,31 +36,55 @@ namespace Spootify.Controllers
         [HttpPost]
         public ActionResult NewAccount()
         {
-            Account account = new Account(Request.Form["newInputName"], Request.Form["newInputPassword"], Request.Form["newInputEmail"], DateTime.Now, Request.Form["newInputFoto"], "NULL", "NULL", "NULL");
-            AccountRepo repo = new AccountRepo(new AccountSQLContext());
-            repo.NewAccount(account);
+            try
+            {
+                Account account = new Account(Request.Form["newInputName"], Request.Form["newInputPassword"],
+                    Request.Form["newInputEmail"], DateTime.Now, Request.Form["newInputFoto"], "NULL", "NULL", "NULL");
+                AccountRepo repo = new AccountRepo(new AccountSQLContext());
+                repo.NewAccount(account);
 
-            this.Session["User"] = account;
-            return RedirectToAction("Index", "Genre");
+                this.Session["User"] = account;
+                return RedirectToAction("Index", "Genre");
+            }
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
+
 
         [HttpPost]
         public ActionResult LoginAccount()
         {
-
-            AccountRepo repo = new AccountRepo(new AccountSQLContext());
-            Account account = repo.LoginAccount(Request.Form["loginInputMail"], Request.Form["loginInputPassword"]);
-            if (account == null)
+            try
             {
-                ViewBag.Login = false;
-                return RedirectToAction("Index");
+                AccountRepo repo = new AccountRepo(new AccountSQLContext());
+                Account account = repo.LoginAccount(Request.Form["loginInputMail"], Request.Form["loginInputPassword"]);
+                if (account == null)
+                {
+                    ViewBag.Login = false;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    this.Session["User"] = account;
+                    return RedirectToAction("Index", "Genre");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                this.Session["User"] = account;
-                return RedirectToAction("Index", "Genre");
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
             }
-            
         }
     }
 }

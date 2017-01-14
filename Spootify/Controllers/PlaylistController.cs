@@ -16,28 +16,65 @@ namespace Spootify.Controllers
         [Route("")]
         public ActionResult Index()
         {
-            PlaylistRepo repo = new PlaylistRepo(new PlaylistSQLContext());
-            return View(repo.GetPlaylists((Account)Session["User"]));
+            try
+            {
+                PlaylistRepo repo = new PlaylistRepo(new PlaylistSQLContext());
+                return View(repo.GetPlaylists((Account) Session["User"]));
+            }
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [Route("{PlaylistID}")]
         public ActionResult Playlist(int playlistID)
         {
-            SongRepo repo = new SongRepo(new SongSQLContext());
-            return View(repo.GetSongsPlaylist(new Playlist(playlistID, 0, null)));
+            try
+            {
+                SongRepo repo = new SongRepo(new SongSQLContext());
+                return View(repo.GetSongsPlaylist(new Playlist(playlistID, 0, null)));
+            }
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
 
         [Route("Aanbevelingen")]
         public ActionResult Aanbevelingen()
         {
-            SongRepo repo = new SongRepo(new SongSQLContext());
-            return View(repo.GetSongsRecommended((Account)Session["User"]));
+            try
+            {
+                SongRepo repo = new SongRepo(new SongSQLContext());
+                return View(repo.GetSongsRecommended((Account)Session["User"]));
+            }
+            catch (Exception ex)
+            {
+                Server.ClearError();
+                Response.TrySkipIisCustomErrors = true;
+                return RedirectToAction("Index", "Error", new
+                {
+                    error = ex.Message
+                });
+            }
+
         }
 
         [Route("New")]
         public ActionResult New()
         {
-
             return View();
         }
     }

@@ -7,7 +7,7 @@ using Spootify.Models;
 
 namespace Spootify.Repos
 {
-    class GenreRepo
+    public class GenreRepo
     {
         private IGenreContext context;
 

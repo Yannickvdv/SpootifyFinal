@@ -9,7 +9,7 @@ using Spootify.Models;
 
 namespace Spootify.Repos
 {
-    class AccountRepo
+    public class AccountRepo
     {
         private IAccountContext context;
 

@@ -147,6 +147,7 @@
     <Compile Include="Context\PlaySQLContext.cs" />
     <Compile Include="Context\SongSQLContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlaylistController.cs" />
@@ -189,6 +190,7 @@
     <Content Include="Views\Playlist\New.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\FavorieteGenres.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
